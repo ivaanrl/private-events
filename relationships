@@ -1,0 +1,39 @@
+User
+	has_many :events, foreign_key: :creator_id
+	has_many :invitations, foreign_key: :invitation_id
+	has_many :attended_events, foreign_key :attendee_id
+end
+
+Event
+	has_many :attendees, foreign_key: :attendee_id
+	has_many :invitations, foreign_key: :invitation_id
+	belongs_to :creator, foreign_key: :creator_id, class_name: 'User'
+end
+
+Invitation
+	has_many :invited_users, foreign_key: :invited_users
+	belongs_to :creator, foreign_key: :creator_id, class_name: 'User'
+	belongs_to :event, foreign_key :event_id
+	
+
+
+
+
+
+User
+	has_many :events, class_name: 'Event', foreign_key: 'creator_id', dependant: true
+	has_many :invites
+	has_many :invites through :invites, source: "event"
+end
+
+Event 
+	has_many :invites
+	has_many :attendees throug :invites, source: "user"
+	belongs_to :creator, foreign_key: :creator_id, class_name: "User"
+end
+
+Invites
+	belongs_to :user
+	belongs_to :event
+end
+
